@@ -1,0 +1,130 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 120px;
+  /* make room for fixed navbar (64px height) */
+  padding-top: 80px;
+}
+
+/* General layout tweaks */
+body {
+    /* Background set to requested turquoise-like color, not under navbar */
+    background: linear-gradient(180deg, #0096FF 0%, #dff8ff 100%);
+    color: #071426; /* dark text */
+}
+
+.container { max-width: 1000px; }
+
+/* Auth card styles */
+.auth-card {
+  background: linear-gradient(180deg, #ffffff 0%, #fbfdff 100%);
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(20,40,80,0.08);
+  padding: 28px;
+  margin-top: 32px;
+  margin-bottom: 48px;
+  border: 1px solid rgba(0,0,0,0.03);
+}
+
+.auth-card h2 {
+  margin-bottom: 6px;
+  font-weight: 600;
+  color: #0b3d91;
+}
+.auth-card p.text-muted { color: #6b7280; }
+
+/* Inputs */
+.form-control {
+  border-radius: 8px;
+  border: 1px solid #d1dbe8;
+  padding: 10px 12px;
+}
+.form-control:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 0.15rem rgba(59,130,246,0.15);
+}
+
+/* Buttons */
+.btn-primary, .btn-success {
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-weight: 600;
+}
+.btn-success { background: linear-gradient(90deg,#10b981,#059669); border: none; }
+.btn-primary { background: linear-gradient(90deg,#3b82f6,#2563eb); border: none; }
+
+/* Navbar tweaks - use requested solid blue and consistent layout */
+.navbar-custom {
+  background-color: #1500FF !important; /* requested blue */
+  background-image: none !important;
+  box-shadow: 0 2px 8px rgba(21,0,255,0.12) !important;
+  z-index: 1050 !important;
+  height: 64px;
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+.navbar { background: transparent !important; }
+.navbar-custom .navbar-brand,
+.navbar-custom .navbar-text,
+.navbar-custom .nav-link { color: #fff !important; }
+.navbar-custom .nav-link:hover { color: #e6e6ff !important; }
+
+/* Full-width container padding so left/right groups sit near edges */
+.navbar-custom .container {
+  max-width: 100% !important;
+  padding-left: 3rem !important;
+  padding-right: 3rem !important;
+  display: flex;
+  align-items: center;
+}
+.navbar-custom .navbar-collapse { display: flex !important; justify-content: space-between; width: 100%; }
+.navbar-custom .navbar-nav.me-auto { margin-left: 1rem; }
+.navbar-custom .navbar-nav.ms-auto { margin-right: 1rem; }
+.navbar-custom .nav-link { padding-left: 0.6rem !important; padding-right: 0.6rem !important; }
+
+/* Ensure the custom navbar color overrides any other rules */
+nav.navbar.navbar-custom {
+  background-color: #1500FF !important;
+  background-image: none !important;
+  background: #1500FF !important;
+  box-shadow: 0 2px 8px rgba(21,0,255,0.15) !important;
+}
+
+/* Neutralize generic navbar transparency rules that may override */
+.navbar { background: initial !important; }
+
+/* Footer */
+footer.footer { background: transparent; padding: 20px 0; color: #6b7280; }
+
+@media (max-width: 576px) {
+  .auth-card { padding: 16px; margin: 18px; }
+  .container { padding-left: 8px; padding-right: 8px; }
+}
+
+.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
+  color: var(--bs-secondary-color);
+  text-align: end;
+}
+
+.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
+  text-align: start;
+}

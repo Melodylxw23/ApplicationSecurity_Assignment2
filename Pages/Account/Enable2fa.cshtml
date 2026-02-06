@@ -1,0 +1,32 @@
+@page
+@model Assignment2.Pages.Account.Enable2faModel
+@{
+    ViewData["Title"] = "Enable 2FA";
+}
+
+<h2>Enable Two-Factor Authentication</h2>
+<p>Copy the secret into Microsoft Authenticator or other TOTP app, or scan with a QR reader.</p>
+
+<form method="post">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <div class="form-group">
+        <label>Secret (Base32)</label>
+        <input asp-for="Secret" class="form-control" readonly />
+    </div>
+    <div class="form-group">
+        <label>otpauth URI (for QR)</label>
+        <input asp-for="OtpauthUri" class="form-control" readonly />
+        @if (!string.IsNullOrEmpty(Model.OtpauthUri))
+        {
+            var qrData = System.Uri.EscapeDataString(Model.OtpauthUri!);
+            <div class="mt-2">
+                <img alt="QR code" src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=@qrData" />
+            </div>
+        }
+    </div>
+    <div class="form-group">
+        <label>Code from authenticator</label>
+        <input asp-for="Code" class="form-control" />
+    </div>
+    <button class="btn btn-primary">Enable 2FA</button>
+</form>

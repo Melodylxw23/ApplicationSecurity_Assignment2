@@ -1,0 +1,28 @@
+@page
+@model Assignment2.Pages.Error.IndexModel
+@{
+    var status = Model.StatusCode;
+    ViewData["Title"] = status switch
+    {
+        400 => "Bad Request",
+        401 => "Unauthorized",
+        403 => "Forbidden",
+        404 => "Not Found",
+    _ => "Error"
+    };
+}
+
+<div class="container py-5">
+    <div class="text-center">
+        <h1 class="display-4">@ViewData["Title"]</h1>
+        <p class="lead">@Model.Message</p>
+        @if (Model.StatusCode == 500)
+        {
+            <div class="mt-4">
+                <h2>500 - Server Error</h2>
+                <p class="lead">An unexpected error occurred on the server. Please try again later.</p>
+            </div>
+        }
+        <a asp-page="/Index" class="btn btn-primary">Back to home</a>
+    </div>
+</div>

@@ -1,0 +1,125 @@
+@page
+@model Assignment2.Pages.Account.RegisterModel
+@{
+    ViewData["Title"] = "Register";
+}
+
+<h2 class="mb-3 text-center">Register</h2>
+<p class="text-center text-muted">Create your Ace Job Agency membership account.</p>
+
+<form method="post" enctype="multipart/form-data">
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <div class="row">
+        <div class="col-md-6 form-group">
+            <label asp-for="Input.FirstName"></label>
+            <input asp-for="Input.FirstName" class="form-control" />
+            <span asp-validation-for="Input.FirstName" class="text-danger"></span>
+        </div>
+        <div class="col-md-6 form-group">
+            <label asp-for="Input.LastName"></label>
+            <input asp-for="Input.LastName" class="form-control" />
+            <span asp-validation-for="Input.LastName" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Input.Gender"></label>
+        <select asp-for="Input.Gender" class="form-control" asp-items="Html.GetEnumSelectList<Assignment2.ViewModels.GenderType>()"></select>
+        <span asp-validation-for="Input.Gender" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Input.NRIC"></label>
+        <input asp-for="Input.NRIC" class="form-control" />
+        <span asp-validation-for="Input.NRIC" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Input.Email"></label>
+        <input asp-for="Input.Email" class="form-control" />
+        <span asp-validation-for="Input.Email" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Input.Password"></label>
+        <input asp-for="Input.Password" class="form-control" id="password" />
+        <small id="passwordStrength" class="form-text text-muted">Use at least 12 characters, mix upper/lower, numbers and symbols.</small>
+        <div class="progress mt-2" style="height:8px;">
+            <div id="passwordStrengthBar" class="progress-bar" role="progressbar" style="width:0%"></div>
+        </div>
+        <span asp-validation-for="Input.Password" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Input.ConfirmPassword"></label>
+        <input asp-for="Input.ConfirmPassword" class="form-control" />
+        <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Input.DateOfBirth"></label>
+        <input asp-for="Input.DateOfBirth" class="form-control" />
+        <span asp-validation-for="Input.DateOfBirth" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Input.Resume">Resume (.pdf or .docx)</label>
+        <input asp-for="Input.Resume" type="file" class="form-control-file" />
+        <span asp-validation-for="Input.Resume" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Input.WhoAmI"></label>
+        <textarea asp-for="Input.WhoAmI" class="form-control"></textarea>
+        <span asp-validation-for="Input.WhoAmI" class="text-danger"></span>
+    </div>
+
+    <!-- Captcha token populated by client script -->
+    <input type="hidden" asp-for="Input.CaptchaToken" />
+
+    <button type="submit" class="btn btn-success w-100">Create account</button>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="/js/password-strength.js"></script>
+    <script src="https://www.google.com/recaptcha/api.js?render=@Model.RecaptchaSiteKey"></script>
+    <script>
+        // Use grecaptcha.ready to ensure API is loaded before executing
+        grecaptcha.ready(function () {
+            var form = document.forms[0];
+            if (!form) return;
+            form.addEventListener('submit', function (e) {
+                e.preventDefault();
+                grecaptcha.execute('@Model.RecaptchaSiteKey', { action: 'register' }).then(function (token) {
+                    var el = document.querySelector('input[name="Input.CaptchaToken"]');
+                    if (!el) {
+                        el = document.createElement('input');
+                        el.type = 'hidden';
+                        el.name = 'Input.CaptchaToken';
+                        document.forms[0].appendChild(el);
+                    }
+                    el.value = token;
+                    form.submit();
+                });
+            });
+        });
+
+        var pwd = document.getElementById('password');
+        var label = document.getElementById('passwordStrength');
+        var bar = document.getElementById('passwordStrengthBar');
+        if (pwd) {
+            pwd.addEventListener('input', function (e) {
+                var res = window.passwordStrength.evaluate(e.target.value);
+                label.innerText = res.desc + ' (' + res.score + '/5)';
+                var pct = Math.round((res.score / 5) * 100);
+                bar.style.width = pct + '%';
+                // color
+                if (res.score >= 4) { bar.classList.remove('bg-danger','bg-warning'); bar.classList.add('bg-success'); }
+                else if (res.score >= 3) { bar.classList.remove('bg-success','bg-danger'); bar.classList.add('bg-warning'); }
+                else { bar.classList.remove('bg-success','bg-warning'); bar.classList.add('bg-danger'); }
+            });
+        }
+    </script>
+}

@@ -1,0 +1,11 @@
+@page
+@model Assignment2.Pages.Error.IndexModel
+@{
+    ViewData["Title"] = "401 - Unauthorized";
+}
+
+<div class="container py-5 text-center">
+    <h1>401 - Unauthorized</h1>
+    <p class="lead">You must be logged in to access this page.</p>
+    <a asp-page="/Account/Login" class="btn btn-primary">Sign in</a>
+</div>

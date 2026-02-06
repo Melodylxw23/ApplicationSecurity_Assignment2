@@ -1,0 +1,17 @@
+@page
+@model Assignment2.Pages.DashboardModel
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="auth-card text-center">
+            <h1 class="display-4">Welcome to Ace Job Agency</h1>
+            <p class="lead mt-3">@Model.WelcomeMessage</p>
+            <p class="text-muted">Here you will find job recommendations tailored to your profile. Use the search and filters to find opportunities suitable for you.</p>
+            <a asp-page="/Index" class="btn btn-primary mt-3">Browse jobs</a>
+            <a asp-page="/Account/Profile" class="btn btn-secondary mt-3 ms-2">View profile</a>
+        </div>
+    </div>
+</div>

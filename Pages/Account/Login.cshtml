@@ -1,0 +1,57 @@
+@page
+@model Assignment2.Pages.Account.LoginModel
+@{
+    ViewData["Title"] = "Login";
+}
+
+<h2 class="mb-3 text-center">Login</h2>
+<p class="text-center text-muted">Sign in to your Ace Job Agency account. <a asp-page="/Account/Register">Create account</a></p>
+
+<form method="post">
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <div class="form-group">
+        <label asp-for="Input.Email"></label>
+        <input asp-for="Input.Email" class="form-control" />
+        <span asp-validation-for="Input.Email" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Input.Password"></label>
+        <input asp-for="Input.Password" class="form-control" />
+        <span asp-validation-for="Input.Password" class="text-danger"></span>
+    </div>
+
+    <div class="text-end mb-3">
+        <a asp-page="/Account/ForgotPassword">Forgot password?</a>
+    </div>
+
+    <div class="form-group form-check">
+        <input asp-for="Input.RememberMe" class="form-check-input" />
+        <label asp-for="Input.RememberMe" class="form-check-label"></label>
+    </div>
+
+    <input type="hidden" asp-for="Input.CaptchaToken" />
+
+    <button type="submit" class="btn btn-primary w-100">Sign in</button>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="https://www.google.com/recaptcha/api.js?render=@Model.RecaptchaSiteKey"></script>
+    <script>
+        grecaptcha.ready(function () {
+            // Populate token on page load so it's available if needed
+            grecaptcha.execute('@Model.RecaptchaSiteKey', { action: 'login' }).then(function (token) {
+                var el = document.querySelector('input[name="Input.CaptchaToken"]');
+                if (!el) {
+                    el = document.createElement('input');
+                    el.type = 'hidden';
+                    el.name = 'Input.CaptchaToken';
+                    document.forms[0].appendChild(el);
+                }
+                el.value = token;
+            });
+        });
+    </script>
+}
