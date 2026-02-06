@@ -686,7 +686,20 @@ $.extend( $.validator, {
 		},
 
 		clean: function( selector ) {
-			return $( selector )[ 0 ];
+			// Normalize different kinds of inputs without interpreting untrusted data as HTML.
+			// - If a jQuery object is passed, return its first element.
+			// - If a DOM element is passed, return it as-is.
+			// - If a selector string is passed, search within the current form.
+			if ( selector && selector.jquery ) {
+				return selector[ 0 ];
+			}
+			if ( selector && selector.nodeType === 1 ) {
+				return selector;
+			}
+			if ( typeof selector === "string" ) {
+				return $( this.currentForm ).find( selector )[ 0 ];
+			}
+			return undefined;
 		},
 
 		errors: function() {
