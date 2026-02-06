@@ -108,7 +108,7 @@ namespace Assignment2.Pages.Account
                 ResumePath = resumePath
             };
             // Password age policy: allow immediate change (min 0) and require change after 1 minute (for demo)
-            user.MinPasswordAgeMinutes = 1;
+            user.MinPasswordAgeMinutes = 0;
             user.MaxPasswordAgeMinutes = 1;
             // record initial password change time so the max-age countdown starts from now
             user.PasswordChangedAt = DateTime.Now;

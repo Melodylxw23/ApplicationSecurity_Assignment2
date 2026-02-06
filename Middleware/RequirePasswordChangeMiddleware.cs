@@ -50,7 +50,8 @@ namespace Assignment2.Middleware
 
                                 if (expired && !allow)
                             {
-                                context.Response.Redirect("/Account/ChangePassword?required=1");
+                                // support both boolean and numeric query values
+                                context.Response.Redirect("/Account/ChangePassword?required=true");
                                 return;
                             }
                             }

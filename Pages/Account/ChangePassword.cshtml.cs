@@ -23,7 +23,7 @@ namespace Assignment2.Pages.Account
         public string NewPassword { get; set; }
 
         [BindProperty(SupportsGet = true)]
-        public bool Required { get; set; }
+        public string? Required { get; set; }
 
         public void OnGet() { }
 
@@ -40,8 +40,11 @@ namespace Assignment2.Pages.Account
                 return Page();
             }
 
-            // check min password age
-            if (user.PasswordChangedAt.HasValue && user.MinPasswordAgeMinutes.HasValue)
+            // determine if change was required by policy (query param 'required' may be '1' or 'true')
+            var requiredFlag = !string.IsNullOrEmpty(Required) && (Required == "1" || Required.Equals("true", System.StringComparison.OrdinalIgnoreCase));
+
+            // check min password age (skip when change is required by max-age policy)
+            if (!requiredFlag && user.PasswordChangedAt.HasValue && user.MinPasswordAgeMinutes.HasValue)
             {
                 var expires = user.PasswordChangedAt.Value.AddMinutes(user.MinPasswordAgeMinutes.Value);
                 if (DateTime.Now < expires)
@@ -71,7 +74,8 @@ namespace Assignment2.Pages.Account
             await _db.SaveChangesAsync();
 
             // If change was required (via query param), redirect back to profile after change
-            if (Required)
+            var requiredFlag2 = !string.IsNullOrEmpty(Required) && (Required == "1" || Required.Equals("true", System.StringComparison.OrdinalIgnoreCase));
+            if (requiredFlag2)
             {
                 return RedirectToPage("/Account/Profile");
             }
